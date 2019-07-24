@@ -47,4 +47,4 @@ let id=setInterval(() => {
     font-size:16px;
 }
 ```
-* 这样html这个CSS选择器就变成了红色啦
+* 这样html这个CSS选择器就变成了红色啦，**但是这里有一个问题，CSS选择器里面只有CSS的语法，而这里的span标签是HTML语法，虽然最终效果可以实现，但是其实这里是互相矛盾的**。
