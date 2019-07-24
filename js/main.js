@@ -26,7 +26,9 @@ var n=0
 let id=setInterval(() => {
     n=n+1
     precode.innerHTML=code.slice(0,n)
-    precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
+    // precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
+    precode.innerHTML=Prism.highlight(precode.innerHTML, Prism.languages.css);
+    console.log(precode.innerHTML)
     stylecode.innerHTML=code.slice(0,n)
     if(n>=code.length){
         window.clearInterval(id)

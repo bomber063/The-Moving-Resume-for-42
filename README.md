@@ -48,8 +48,30 @@ let id=setInterval(() => {
 }
 ```
 * 这样html这个CSS选择器就变成了红色啦，**但是这里有一个问题，CSS选择器里面只有CSS的语法，而这里的span标签是HTML语法，虽然最终效果可以实现标签高亮的颜色变换，但是其实这里的原有的样式没有了，所以是互相矛盾的，不可以这样做**。
-* 所以说这里只能改pre里面的代码，不能修改style里面的代码，这里要单独修改。用到一个[replace](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/replace),该方法支持[正则表达式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp)，但是这里用不到正则表达式，只是简单的替换字符串即可。比如写成这样就代表把字符串`html`替换为字符串`<span style="color:red;">html</span>`
+* 所以说这里**只能改pre里面的代码，不能修改style里面的代码**，这里要单独修改。用到一个[replace](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/replace),该方法支持[正则表达式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp)，但是这里用不到正则表达式，只是简单的替换字符串即可。比如写成这样就代表把字符串`html`替换为字符串`<span style="color:red;">html</span>`
 ```
     precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
 ```
 * **这里pre标签里面的标签会被当做标签来解释**。
+***
+* 要把所有选择器都挑出来，我们需要通过[正则](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp)把每个选择器挑选出来，这样就很麻烦。
+* 所以我们需要一个开源的解决这个问题的库就好啦
+***
+### 选择CSS代码高亮的库
+* 通过Google里面搜索js syntax lib,然后我们就可以看到[Prism.js](https://prismjs.com/)或者[highlight.js](https://highlightjs.org/)
+* 这里我们选择Prism.js，它能够把一个字符串其中的关键字加上span,我们用CRM(copy-run-modify)套路来学习和熟悉这个库就好了。
+* 下载prism.js和prism.css，然后用link引入CSS，用script引入js即可。
+* 通过增加一句这个代码
+```
+    precode.innerHTML=Prism.highlight(precode.innerHTML, Prism.languages.css);
+```
+* 就代码precode.innerHTML按照css语法来显示高亮，然后我们通过开发者工具可以看到，多了很多span还有一些class，比如
+```
+<span class="token comment">注释部分
+<span class="token property">transition</span>CSS属性部分
+<span class="token selector">html</span>CSS选择器部分
+<span class="token punctuation">:</span>CSS标点符号部分
+<span class="token function">rgb</span>CSS函数部分
+等等
+```
+* 这样，你的注释，属性，选择器，标点符号，函数等部分都会被class包住，然后对应不同的颜色即可，这就是这个库的代码来实现的效果。
