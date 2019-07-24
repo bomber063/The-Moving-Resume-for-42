@@ -47,4 +47,9 @@ let id=setInterval(() => {
     font-size:16px;
 }
 ```
-* 这样html这个CSS选择器就变成了红色啦，**但是这里有一个问题，CSS选择器里面只有CSS的语法，而这里的span标签是HTML语法，虽然最终效果可以实现，但是其实这里是互相矛盾的**。
+* 这样html这个CSS选择器就变成了红色啦，**但是这里有一个问题，CSS选择器里面只有CSS的语法，而这里的span标签是HTML语法，虽然最终效果可以实现标签高亮的颜色变换，但是其实这里的原有的样式没有了，所以是互相矛盾的，不可以这样做**。
+* 所以说这里只能改pre里面的代码，不能修改style里面的代码，这里要单独修改。用到一个[replace](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/replace),该方法支持[正则表达式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp)，但是这里用不到正则表达式，只是简单的替换字符串即可。比如写成这样就代表把字符串`html`替换为字符串`<span style="color:red;">html</span>`
+```
+    precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
+```
+* **这里pre标签里面的标签会被当做标签来解释**。

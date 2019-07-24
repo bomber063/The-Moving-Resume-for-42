@@ -12,7 +12,7 @@ var code=`/*面试官你好，我是唐艺轰
 *{
     transition:all 1s;
 }
-<span style='color:red'>html</span>{
+html{
     color:rgb(222,222,222);
     background:rgb(0,43,54);
     font-size:16px;
@@ -26,6 +26,7 @@ var n=0
 let id=setInterval(() => {
     n=n+1
     precode.innerHTML=code.slice(0,n)
+    precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
     stylecode.innerHTML=code.slice(0,n)
     if(n>=code.length){
         window.clearInterval(id)
