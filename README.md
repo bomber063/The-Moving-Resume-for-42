@@ -38,3 +38,13 @@ let id=setInterval(() => {
 * 在css中增减文字说明需要用到CSS的注释，比如说下面的代码
 > /**/
 * 增加过渡transtion，字体大小font-size，背景颜色background等
+### 代码高亮怎么做
+* 大致的思路就是给CSS选择器在增加一个span标签来改变颜色，比如
+```
+<span style='color:red'>html</span>{
+    color:rgb(222,222,222);
+    background:rgb(0,43,54);
+    font-size:16px;
+}
+```
+* 这样html这个CSS选择器就变成了红色啦

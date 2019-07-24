@@ -12,7 +12,7 @@ var code=`/*面试官你好，我是唐艺轰
 *{
     transition:all 1s;
 }
-html{
+<span style='color:red'>html</span>{
     color:rgb(222,222,222);
     background:rgb(0,43,54);
     font-size:16px;
