@@ -21,6 +21,18 @@ html{
     border:1px solid red;
     padding:16px;
 }
+/*需要一点代码高亮*/
+.token.function{
+    color:#DD4A68;
+}
+
+.token.selector{
+    color:#690;
+}
+
+.token.property{
+    color:#905;
+}
 `
 var n=0
 let id=setInterval(() => {
@@ -33,7 +45,7 @@ let id=setInterval(() => {
     if(n>=code.length){
         window.clearInterval(id)
     }
-}, 10);
+}, 100);
 
 
 

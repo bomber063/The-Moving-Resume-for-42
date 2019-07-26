@@ -75,3 +75,37 @@ let id=setInterval(() => {
 等等
 ```
 * 这样，你的注释，属性，选择器，标点符号，函数等部分都会被class包住，然后对应不同的颜色即可，这就是这个库的代码来实现的效果。
+***
+* 我们让代码在描述**高亮后才显示高亮**
+***
+* 我们需要先覆盖掉Prism.js库里面的属性，选择器和函数的颜色
+* 先在CSS文件里面加入这些代码，覆盖掉原来Prism.js里面的颜色
+```
+.token.function{
+    color:#aaa;
+}
+
+.token.selector{
+    color:#aaa;
+}
+
+.token.property{
+    color:#aaa;
+}
+```
+* 然后在code里面增加
+```
+/*需要一点代码高亮*/
+.token.function{
+    color:#DD4A68;
+}
+
+.token.selector{
+    color:#690;
+}
+
+.token.property{
+    color:#905;
+}
+```
+* 因为code的代码最后会到index文件里面的style里面去，**所有优先会用style里面的样式,于是style的样式又覆盖css里面的样式，于是高亮有出现啦，这样就可以自己来控制什么时候开始显示高亮啦**。
