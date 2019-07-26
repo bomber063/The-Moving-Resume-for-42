@@ -33,6 +33,10 @@ html{
 .token.property{
     color:#905;
 }
+/*增加一点3D效果*/
+#precode{
+    transform:rotate(360deg);
+}
 `
 var n=0
 let id=setInterval(() => {
@@ -45,7 +49,7 @@ let id=setInterval(() => {
     if(n>=code.length){
         window.clearInterval(id)
     }
-}, 100);
+}, 10);
 
 
 
