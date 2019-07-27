@@ -26,7 +26,7 @@
 var n=0
 let id=setInterval(() => {
     n=n+1
-    precode.innerHTML=code.slice(0,n)
+    precode.innerHTML=code.slice(0,n)//这里用innerHTML，而不用innerText，是因为需要保留里面的标签，也就是<>
     stylecode.innerHTML=code.slice(0,n)
     if(n>=code.length){
         window.clearInterval(id)
@@ -122,4 +122,32 @@ let id=setInterval(() => {
 #precode{
     transform:rotate(360deg);
 }
+```
+### 执行完某写代码后去做另外一个结构，也就是一个paper或者代码。
+* 在上面的代码执行完后，也就是if判断结束后执行的内容之后增加另一个函数来做一个paper和其他结构或者代码
+```
+    if(n>=code.length){
+        window.clearInterval(id)
+        fn2()
+        fn3(code)
+    }
+```
+* 因为上一次已经通过Prism.js库增加了span标签了，所以这里需要把上一次的结果传入进来，比如fn3(code)，这样就不用重复加span标签。
+```
+    var id=setInterval(() => {
+        n=n+1
+        // precode.innerHTML=x+code2.slice(0,n)//如果是用传进来的x，那么原来的x是不会改变的，所以要用0,n
+        // precode.innerHTML=precode.innerHTML+code2.slice(n-1,n)//如果是用precode.innerHTML,这个precode.innerHTML会一直改变，所以要用n-1,n
+        //上面的slice也可以改成code2[n-1]
+        precode.innerHTML=Prism.highlight(x+code2.slice(0,n), Prism.languages.css);//如果这里把code2直接放入到highlight里面会一瞬间显示出来，所以这里需要写入code2.slice(0,n)
+        //因为用到上面一行代码，所以前面的两行代码都可以不需要啦
+        //上一次的延迟函数里面已经有span标签了,所以需要传入参数x进来，免得重复加span 
+        console.log(precode.innerHTML)
+        stylecode.innerHTML=x+code2.slice(0,n)    
+        console.log(stylecode.innerHTML)   
+        //这里的参数除了可以传入上一次的code以外，还可以传入上一次的precode.innerHTML和stylecode.innerHTML。
+        if(code2.length<n){
+            clearInterval(id)
+        }
+    }, 10);
 ```
