@@ -21,6 +21,7 @@
 * 我们这里就选择slice()
 * 另外还需要知道在HTML里面不管是回车，空格或者TAB，**如果出现多个看不见的字符，比如空格，那么浏览器会把这些空格合并，会认为只有一个空格**，这里就算是用JS来写也是一样的。但是HTML里面有**一个标签是保留回车和空格的**，那就是[pre标签](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/pre),因为它全称是preview，就是预览的意思，那么就保留了原有的样式。
 * 如果需要代码和样式同时出现效果，那么就写两份，**一份放到style标签里面，一份放到body标签下面的pre标签里面即可，style标签里面的就会呈现样式，而body标签下面的pre标签就呈现代码**。
+* 用到[innerHTML](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/innerHTML)
 * JS里面代码大致写成这样
 ```
 var n=0
@@ -128,7 +129,7 @@ let id=setInterval(() => {
 ```
     if(n>=code.length){
         window.clearInterval(id)
-        fn2()
+        fn2()//前面的延迟函数，也就是闹钟结束后就执行后面的这两个函数fn2和fn3
         fn3(code)
     }
 ```
@@ -151,3 +152,47 @@ let id=setInterval(() => {
         }
     }, 10);
 ```
+### 封装函数优化代码
+* 这里**我没有明白为什么函数里面不能再调用外面的函数，而需要用到回调函数。**
+* 如果不用回调函数。执行完clearInterval(id)之后**调用外面的函数y**，见jsbin[链接](https://jsbin.com/yehujohiyu/1/edit?html,js,output)
+* 如果用到回调函数,回调函数其实是把函数作为**形参**放入进去，执行完clearInterval(id)之后调用自己函数的形参(这个形参也就是一个回调函数，但它需要**外面来定义这个函数**)，见jsbin[链接](https://jsbin.com/seyoqifeve/1/edit?js,output)
+* 回调再同步和异步中都可以使用。
+* 代码修改部分,增加一个函数,通过开始的代码，开始的代码结束后新增的代码及回调函数
+```
+function WriteCode(beforeCode,newCode,callback){//beforeCode是前面的代码，newCode是beforeCode结束后增加的代码,callback是回调函数
+    var n=0
+    precode.innerHTML=beforeCode||''//这句话不屑也不影响最后的效果，感觉这句话用处不大，但是还是写上吧
+    let id=setInterval(() => {
+        n=n+1
+        precode.innerHTML=beforeCode+newCode.slice(0,n)
+        precode.innerHTML=Prism.highlight(precode.innerHTML, Prism.languages.css);
+        console.log(precode.innerHTML)
+        stylecode.innerHTML=beforeCode+newCode.slice(0,n)
+        if(n>=newCode.length){
+            window.clearInterval(id)
+            callback()//别的地方来调用这个形参
+        }
+    }, 10);
+}
+```
+* 同步函数修改名字，并且增加同步函数的回调函数作为参数调用
+```
+function CreatePaper(callback){
+    var div=document.createElement('div')
+    div.id='paper'
+    var body=document.getElementsByTagName('body')
+    console.log(body[0].appendChild(div))
+    callback()
+}
+```
+* WriteCode为异步函数，因为是有setTimeout，延迟函数，CreatePaper为同步函数，他们两个都传入的回调函数作为实参，这个回调函数会再自己本身执行完毕后再去执行。
+```
+WriteCode('',code,()=>{
+    CreatePaper(()=>{
+        WriteCode(code,code2,()=>{
+            console.log('结束')
+        })
+    })
+})
+```
+
