@@ -209,4 +209,18 @@ WriteCode('',code,()=>{
 var promise=$.get('/xxx')
 promise.then(success,error)
 ```
+### 设置代码自动向下滚动
+* 首先改变一下CSS的样式，使用[vh](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length),[overflow](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow)等属性
+```
+#precode {
+    height:100vh;
+    overflow: hidden;
+}
+```
+* 自动向下滚动需要用到[scrollTop](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop)，以前也写过scrollTop的[博客](https://zhuanlan.zhihu.com/p/62519712)
+* [scrollHeight](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight)这个只读属性是一个元素内容高度的度量，**包括由于溢出导致的视图中不可见内容**。
+* 代码增加如下
+```
+        precode.scrollTop=100000//这个要放到最后，因为要生成代码才可以，这段代码也可以写成precode.scrollTop=scrollHeight
+```
 

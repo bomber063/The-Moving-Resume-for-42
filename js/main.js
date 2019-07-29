@@ -9,6 +9,7 @@ function WriteCode(beforeCode,newCode,callback){//beforeCode是前面的代码�
         precode.innerHTML=Prism.highlight(precode.innerHTML, Prism.languages.css);
         console.log(precode.innerHTML)
         stylecode.innerHTML=beforeCode+newCode.slice(0,n)
+        precode.scrollTop=100000//这个要放到最后，因为要生成代码才可以，这段代码也可以写成precode.scrollTop=scrollHeight
         if(n>=newCode.length){
             window.clearInterval(id)
             // fn2()//前面的延迟函数，也就是闹钟结束后就执行后面的这两个函数fn2和fn3

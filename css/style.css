@@ -1,3 +1,8 @@
+* {
+    padding:0px;
+    margin:0px;
+    box-sizing:border-box;
+}
 .token.function{
     color:#aaa;
 }
@@ -8,4 +13,9 @@
 
 .token.property{
     color:#aaa;
+}
+
+#precode {
+    height:100vh;
+    overflow: hidden;
 }
