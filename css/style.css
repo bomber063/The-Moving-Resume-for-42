@@ -4,18 +4,49 @@
     box-sizing:border-box;
 }
 .token.function{
-    color:#aaa;
+    color:black;
 }
 
 .token.selector{
-    color:#aaa;
+    color:black;
 }
 
 .token.property{
-    color:#aaa;
+    color:black;
 }
 
+#code-wrapper{
+    padding: 16px;
+    height: 100vh;
+    display: flex;
+  } 
+
 #precode {
-    height:100vh;
+    width:100%;
     overflow: hidden;
+}
+/* #convertToHTMLcontent{
+    width:100%;
+    height:100%;
+    background:white;
+    color:black;
+    padding:16px;
+} */
+
+#paper> .html{
+    width:100%;
+    height:100%;
+    background:white;
+    color:black;
+    overflow:auto;
+}
+
+@keyframes breath{
+    0%{
+        box-shadow:0 0 10px rgba(0,0,0,1)
+    }
+    100%{
+        box-shadow:0 0 10px rgba(0,0,0,0.2)
+    }
+
 }

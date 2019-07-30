@@ -223,4 +223,39 @@ promise.then(success,error)
 ```
         precode.scrollTop=100000//这个要放到最后，因为要生成代码才可以，这段代码也可以写成precode.scrollTop=scrollHeight
 ```
+### 调整paper的样式，写入markdown内容,转换markdown为html
+* [replaceWith](https://developer.mozilla.org/zh-CN/docs/Web/API/ChildNode/replaceWith)的方法用一套 Node 对象或者 DOMString 对象，替换了该节点父节点下的子节点 。DOMString 对象被当做等效的Text 节点插入。
+
+*  用到[markdown-css库](https://github.com/bomber063/github-markdown-css)
+```
+    div.className = 'html markdown-body'
+```
+* 用到[marked.js库](https://github.com/bomber063/marked)
+* 增加一个呼吸效果
+```
+#precode{
+    animation: breath 0.5s infinite alternate-reverse;
+}
+```
+* 主要的代码过程
+```
+WriteCode('',code,()=>{//先写初步的样式代码
+    CreatePaper(()=>{//然后创建一张白纸
+        CreateMarkdown(md,()=>{//在白纸上用markdown写字
+            WriteCode(code,code2,()=>{//把 Markdown 变成 HTML的文字说明
+                convertToHtml(md,()=>{//把 Markdown 变成 HTML的效果
+                    WriteCode(code+code2,code3,()=>{//完成后的谢谢说明
+                        console.log('完成')
+                    })
+                })
+            })
+        })
+    })
+})
+```
+
+### 有时间可以改进的操作
+* 可以增加几个按钮来改变运行速度
+* 还可以增加一个按钮瞬间跳到最后
+
 

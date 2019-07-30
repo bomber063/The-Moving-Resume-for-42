@@ -16,7 +16,7 @@ function WriteCode(beforeCode,newCode,callback){//beforeCode是前面的代码�
             // fn3(code)
             callback()//别的地方来调用这个形参
         }
-    }, 10);
+    }, 20);
 }
 
 var stylecode=document.querySelector('#stylecode')
@@ -34,18 +34,13 @@ var code=`/*面试官你好，我是唐艺轰
     transition:all 1s;
 }
 html{
-    color:rgb(222,222,222);
-    background:rgb(0,43,54);
-    font-size:16px;
+    background:#eee;
 }
 #precode{
-    border:1px solid red;
     padding:16px;
+    border: 1px solid #aaa;
 }
 /*需要一点代码高亮*/
-.token.function{
-    color:#DD4A68;
-}
 
 .token.selector{
     color:#690;
@@ -54,32 +49,134 @@ html{
 .token.property{
     color:#905;
 }
-/*增加一点3D效果*/
+
+/*增加一点呼吸效果*/
 #precode{
-    transform:rotate(360deg);
+    animation: breath 0.5s infinite alternate-reverse;
 }
+
+/* 现在正式开始 */
+
+/* 我需要一张白纸 */
+
+#code-wrapper{
+    width: 50%; left: 0; position: fixed; 
+    height: 100%;
+  }
+
+#paper{
+    position:fixed;
+    right:0;
+    height:100%;
+    width:50%;
+    background:#444;
+    padding:16px;
+}
+
+#content{
+    width:100%;
+    height:100%;
+    background:white;
+    color:black;
+    overflow:auto;
+}
+
+/* 于是我就可以在白纸上写字了，请看右边 */
 `
 var code2=`
-#paper{
-    background:white;
-    height:100px;
-    width:100px;
-}
+/* 接下来用一个优秀的库 marked.js
+ * 把 Markdown 变成 HTML
+ */
     `
+var md=`
+# 自我介绍
 
-WriteCode('',code,()=>{
-    CreatePaper(()=>{
-        WriteCode(code,code2,()=>{
-            console.log('结束')
+我叫唐艺轰，南华大学毕业，自学前端半年，希望应聘前端开发岗位。
+
+# 技能介绍
+熟悉 JavaScript CSS
+# 项目介绍
+1. 轮播
+2. 会动的简历
+3. 画板
+
+# 联系方式
+* QQ xxxxxxxx
+* Email xxxxxxxx
+* 手机 xxxxxxx
+`
+let code3=`
+/*
+ * 这就是我的会动的简历
+ * 谢谢观看
+ */
+`
+
+WriteCode('',code,()=>{//先写初步的样式代码
+    CreatePaper(()=>{//然后创建一张白纸
+        CreateMarkdown(md,()=>{//在白纸上用markdown写字
+            WriteCode(code,code2,()=>{//把 Markdown 变成 HTML的文字说明
+                convertToHtml(md,()=>{//把 Markdown 变成 HTML的效果
+                    WriteCode(code+code2,code3,()=>{//完成后的谢谢说明
+                        console.log('完成')
+                    })
+                })
+            })
         })
     })
 })
 
+
+// WriteCode('',code,()=>{
+//     CreatePaper(()=>{
+//         WriteCode(code,code2,()=>{
+//             CreateMarkdown(md,()=>{
+//                 convertToHtml(md)
+//             })
+//         })
+//     })
+// })
+
 function CreatePaper(callback){
     var div=document.createElement('div')
+    var content=document.createElement('pre')
+    content.id='content'
     div.id='paper'
     var body=document.getElementsByTagName('body')
-    console.log(body[0].appendChild(div))
+    body[0].appendChild(div)
+    div.appendChild(content)
+    callback()
+}
+
+function CreateMarkdown(markdown,callback){
+    var n=0
+    let domPaper = document.querySelector('#content')//这个是markdown改变为HTML之前的操作id
+    domPaper.innerHTML=markdown||''//这句话不屑也不影响最后的效果，感觉这句话用处不大，但是还是写上吧
+    let id=setInterval(() => {
+        n=n+1
+        domPaper.innerHTML=markdown.slice(0,n)//这里用innerHTML，而不用innerText，是因为需要保留里面的标签，也就是<>
+        // precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
+        //这里是直接覆盖所以是code.slice(0,n)
+        // markdown.innerHTML=Prism.highlight(precode.innerHTML, Prism.languages.css);
+        // stylecode.innerHTML=beforeCode+newCode.slice(0,n)
+        domPaper.scrollTop=domPaper.scrollHeight//这个要放到最后，因为要生成代码才可以，这段代码也可以写成precode.scrollTop=scrollHeight
+        console.log(domPaper.scrollTop)
+        if(n>=markdown.length){
+            window.clearInterval(id)
+            // fn2()//前面的延迟函数，也就是闹钟结束后就执行后面的这两个函数fn2和fn3
+            // fn3(code)
+            callback()//别的地方来调用这个形参
+        }
+    }, 30);
+}
+
+function convertToHtml(mdToHTML,callback){
+    var markdowncontent=document.getElementById('content')
+    var div=document.createElement('div')
+    div.className = 'html markdown-body'//因为github-markdown.min.css里面的class就是这个名字
+    div.innerHTML =marked(mdToHTML);
+    // div.id='convertToHTMLcontent'
+    markdowncontent.replaceWith(div)//这里前面是pre，要换成div块级元素，所以重新用转换为HTML的div元素来替换
     callback()
 }
 
