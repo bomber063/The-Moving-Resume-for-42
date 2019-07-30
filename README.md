@@ -310,4 +310,8 @@ function fn(fn2){
 * 可以增加几个按钮来改变运行速度
 * 还可以增加一个按钮瞬间跳到最后
 
+### 其他参考代码链接
+1. [方方链接1](https://github.com/FrankFang/animating-resume)
+2. [方方链接2](https://github.com/jirengu-inc/animating-resume)
+
 
