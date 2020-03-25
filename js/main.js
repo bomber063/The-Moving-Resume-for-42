@@ -1,22 +1,42 @@
+let duration=20;
+
 function WriteCode(beforeCode,newCode,callback){//beforeCode是前面的代码，newCode是beforeCode结束后增加的代码,callback是回调函数
-    var n=0
+    var n=0;
     precode.innerHTML=beforeCode||''//这句话不屑也不影响最后的效果，感觉这句话用处不大，但是还是写上吧
-    let id=setInterval(() => {
+    setTimeout(function a() {
         n=n+1
         precode.innerHTML=beforeCode+newCode.slice(0,n)//这里用innerHTML，而不用innerText，是因为需要保留里面的标签，也就是<>
         // precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
         //这里是直接覆盖所以是code.slice(0,n)
         precode.innerHTML=Prism.highlight(precode.innerHTML, Prism.languages.css);
-        console.log(precode.innerHTML)
+        // console.log(precode.innerHTML)
         stylecode.innerHTML=beforeCode+newCode.slice(0,n)
         precode.scrollTop=100000//这个要放到最后，因为要生成代码才可以，这段代码也可以写成precode.scrollTop=scrollHeight
-        if(n>=newCode.length){
-            window.clearInterval(id)
+        if (n < newCode.length) {
+            // window.clearInterval(id)
+            setTimeout(a, duration)//这里的duration就是新的延迟时间
+
             // fn2()//前面的延迟函数，也就是闹钟结束后就执行后面的这两个函数fn2和fn3
             // fn3(code)
+        } else {
             callback()//别的地方来调用这个形参
         }
-    }, 20);
+    }, duration);
+
+    $('.allButton').on('click','button',function (e){
+        $(e.currentTarget).addClass('active').siblings().removeClass('active')
+        let b=$(e.currentTarget).attr('speed')
+        if (b==='50'){
+            duration=50
+        }
+        else if(b==='20'){
+            duration=20
+        }
+        else if(b==='0'){
+            duration=0
+        }
+    })
+
 }
 
 var stylecode=document.querySelector('#stylecode')
@@ -29,7 +49,31 @@ var code=`/*面试官你好，我是唐艺轰
 
 只用文字介绍太单调了
 我就用代码来介绍吧
-首先准备一些样式*/
+/*调速的按钮*/
+.allButton{
+    position:absolute;
+    top:20px;
+    right:20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.allButton>button{
+    padding:10px;
+    background: #ddd;
+    margin:10px;
+}
+.allButton>button:focus{
+    outline:none;
+    /* 这个写不写都不影响，方方老师的默认有focue，我这里没有focus的样式，可能是每个浏览器的显示效果不同 */
+}
+
+.allButton>button.active{
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+    padding:10px;
+}
+
+/*首先准备一些样式*/
 *{
     transition:all 1s;
 }
@@ -96,14 +140,16 @@ var md=`
 # 技能介绍
 熟悉 JavaScript CSS
 # 项目介绍
-1. 轮播
-2. 会动的简历
-3. 画板
+1. [canvas画板](https://bomber063.github.io/Canvas-demo/index)
+2. [gulu-bomber UI组件](https://bomber063.github.io/DIY-UI-frame-by-Vue-for-all/)
+4. [匹配游戏](https://bomber063.github.io/Cards-Matching-Game/index.html)
+5. [可爱皮卡丘](https://bomber063.github.io/The-Moving-Pikachu-for-43/index.html)
+3. <p>小程序：遍历翻译</p> <img src="https://mp.weixin.qq.com/wxopen/qrcode?action=show&type=2&fakeid=3852146327&token=947971384" style="height:100px;width:100px">
 
 # 联系方式
-* QQ xxxxxxxx
-* Email xxxxxxxx
-* 手机 xxxxxxx
+* QQ 284995042
+* Email tangyihong063@163.com
+* 手机 13825293559
 `
 let code3=`
 /*
@@ -143,16 +189,18 @@ function CreatePaper(callback){
     content.id='content'
     div.id='paper'
     var body=document.getElementsByTagName('body')
+    var allButton=document.getElementsByClassName('allButton')
     body[0].appendChild(div)
     div.appendChild(content)
+    div.appendChild(allButton[0])
     callback()
 }
 
 function CreateMarkdown(markdown,callback){
-    var n=0
+    var n=0;
     let domPaper = document.querySelector('#content')//这个是markdown改变为HTML之前的操作id
     domPaper.innerHTML=markdown||''//这句话不屑也不影响最后的效果，感觉这句话用处不大，但是还是写上吧
-    let id=setInterval(() => {
+    setTimeout(function a()  {
         n=n+1
         domPaper.innerHTML=markdown.slice(0,n)//这里用innerHTML，而不用innerText，是因为需要保留里面的标签，也就是<>
         // precode.innerHTML=precode.innerHTML.replace('html','<span style="color:red;">html</span>')
@@ -160,14 +208,33 @@ function CreateMarkdown(markdown,callback){
         // markdown.innerHTML=Prism.highlight(precode.innerHTML, Prism.languages.css);
         // stylecode.innerHTML=beforeCode+newCode.slice(0,n)
         domPaper.scrollTop=domPaper.scrollHeight//这个要放到最后，因为要生成代码才可以，这段代码也可以写成precode.scrollTop=scrollHeight
-        console.log(domPaper.scrollTop)
-        if(n>=markdown.length){
-            window.clearInterval(id)
+        // console.log(domPaper.scrollTop)
+
+        if (n < markdown.length) {
+            setTimeout(a, duration)//这里的duration就是新的延迟时间
+
+            // window.clearInterval(id)
             // fn2()//前面的延迟函数，也就是闹钟结束后就执行后面的这两个函数fn2和fn3
             // fn3(code)
+        } else {
             callback()//别的地方来调用这个形参
         }
-    }, 30);
+    }, duration);
+
+    $('.allButton').on('click','button',function (e){
+        $(e.currentTarget).addClass('active').siblings().removeClass('active')
+        let b=$(e.currentTarget).attr('speed')
+        if (b==='50'){
+            duration=50
+        }
+        else if(b==='20'){
+            duration=20
+        }
+        else if(b==='0'){
+            duration=0
+        }
+    })
+
 }
 
 function convertToHtml(mdToHTML,callback){
