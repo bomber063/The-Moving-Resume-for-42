@@ -3,6 +3,30 @@
     margin:0px;
     box-sizing:border-box;
 }
+/*调速的按钮*/
+.allButton{
+    position:absolute;
+    top:20px;
+    right:20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.allButton>button{
+    padding:10px;
+    background: #ddd;
+    margin:10px;
+}
+.allButton>button:focus{
+    outline:none;
+    /* 这个写不写都不影响，方方老师的默认有focue，我这里没有focus的样式，可能是每个浏览器的显示效果不同 */
+}
+
+.allButton>button.active{
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+    padding:10px;
+}
+
 .token.function{
     color:black;
 }
@@ -23,7 +47,7 @@
 
 #precode {
     width:100%;
-    overflow: hidden;
+    overflow: auto;
 }
 /* #convertToHTMLcontent{
     width:100%;

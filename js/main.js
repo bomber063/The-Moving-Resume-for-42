@@ -49,29 +49,6 @@ var code=`/*面试官你好，我是唐艺轰
 
 只用文字介绍太单调了
 我就用代码来介绍吧
-/*调速的按钮*/
-.allButton{
-    position:absolute;
-    top:20px;
-    right:20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.allButton>button{
-    padding:10px;
-    background: #ddd;
-    margin:10px;
-}
-.allButton>button:focus{
-    outline:none;
-    /* 这个写不写都不影响，方方老师的默认有focue，我这里没有focus的样式，可能是每个浏览器的显示效果不同 */
-}
-
-.allButton>button.active{
-    box-shadow: 1px 1px 1px rgba(0,0,0,0.8);
-    padding:10px;
-}
 
 /*首先准备一些样式*/
 *{
@@ -144,7 +121,7 @@ var md=`
 2. [gulu-bomber UI组件](https://bomber063.github.io/DIY-UI-frame-by-Vue-for-all/)
 4. [匹配游戏](https://bomber063.github.io/Cards-Matching-Game/index.html)
 5. [可爱皮卡丘](https://bomber063.github.io/The-Moving-Pikachu-for-43/index.html)
-3. <p>小程序：遍历翻译</p> <img src="https://mp.weixin.qq.com/wxopen/qrcode?action=show&type=2&fakeid=3852146327&token=947971384" style="height:100px;width:100px">
+3. <p>小程序：遍历翻译</p> <img src="./img/Mini Program code.jpg" style="height:100px;width:100px">
 
 # 联系方式
 * QQ 284995042
@@ -186,13 +163,22 @@ WriteCode('',code,()=>{//先写初步的样式代码
 function CreatePaper(callback){
     var div=document.createElement('div')
     var content=document.createElement('pre')
+    var codewrap=document.querySelector('#code-wrapper')
     content.id='content'
     div.id='paper'
     var body=document.getElementsByTagName('body')
-    var allButton=document.getElementsByClassName('allButton')
     body[0].appendChild(div)
     div.appendChild(content)
-    div.appendChild(allButton[0])
+
+    if (window.matchMedia("(max-width: 768px)").matches)
+    {
+        var allButton=document.getElementsByClassName('allButton')
+        codewrap.appendChild(allButton[0])
+    }
+    else{
+        var allButton=document.getElementsByClassName('allButton')
+        div.appendChild(allButton[0])
+    }
     callback()
 }
 
